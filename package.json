@@ -1,0 +1,26 @@
+{
+  "name": "nagrik-backend",
+  "version": "1.0.0",
+  "description": "A social networking application for the local community to support each other in the need of danger and emergency where residents can report and share any mishappening in the nearby area thus, helping and making people aware.",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.10.9",
+    "nodemon": "^2.0.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djcruz93/Nagrik-backend.git"
+  },
+  "author": "Dhruv Jain",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/djcruz93/Nagrik-backend/issues"
+  },
+  "homepage": "https://github.com/djcruz93/Nagrik-backend#readme"
+}
