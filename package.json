@@ -6,7 +6,9 @@
   "dependencies": {
     "express": "^4.17.1",
     "mongoose": "^5.10.9",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0"
   },
   "devDependencies": {},
   "scripts": {
