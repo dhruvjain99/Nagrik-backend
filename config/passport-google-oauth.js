@@ -1,18 +1,18 @@
 const passport = require('passport');
 const googleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('./../models/user');
+const constants = require('./constants');
 
 passport.use(new googleStrategy({
-    clientID: '137444265231-6hv5i4kvbbqoh7ifasas2pqrno9ao67n.apps.googleusercontent.com',
-    clientSecret: '4ufQNz2IYlBItXKmawbfUX59',
-    callbackURL: 'http://localhost:3000/users/auth/google/callback',
+    clientID: constants.google_client_id,
+    clientSecret: constants.google_client_secret,
+    callbackURL: constants.google_callback_url,
 }, function(accessToken, refreshToken, profile, done){
     User.findOne({email: profile.emails[0].value}, function(err, user){
         if(err){
             console.log('Error in finding the user from the database.');
             return done(null, false);
         }
-        console.log(profile);
         if(user){
             return done(null, user);
         } else {

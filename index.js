@@ -1,9 +1,14 @@
 const express = require('express');
 const db = require('./config/mongoose');
 const google_auth = require('./config/passport-google-oauth')
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const app = express();
 const port = 3000;
 const passport = require('passport');
+
+app.use(cookieParser());
+app.use(session({secret: "nagrik", resave: false, saveUninitialized: false}));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -15,6 +20,13 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
 done(null, user);
 });
+
+passport.checkAuthentication = function(req, res, done){
+    if(req.isAuthenticated()){
+        done();
+    }
+    res.redirect('/');
+};
 
 app.use('/', require('./routes'));
 
