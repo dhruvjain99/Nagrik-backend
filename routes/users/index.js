@@ -8,4 +8,6 @@ router.get('/auth/google', passport.authenticate('google', {scope: ['profile', '
 
 router.get('/auth/google/callback', passport.authenticate('google', {failureRedirect: '/'}), users_controller.createSession);
 
+router.get('/xyz', passport.checkAuthentication)
+
 module.exports = router;

@@ -30,4 +30,19 @@ passport.use(new googleStrategy({
     })
 }));
 
+passport.serializeUser(function(user, done) {
+    done(null, user);
+  });
+  
+passport.deserializeUser(function(user, done) {
+done(null, user);
+});
+
+passport.checkAuthentication = function (req, res, next){
+    if (req.isAuthenticated()){
+        return next();
+    }
+    return res.redirect('/');
+};
+
 module.exports = passport;

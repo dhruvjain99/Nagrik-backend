@@ -8,8 +8,7 @@ module.exports.createSession = function(req, res){
     return res.json({data: 'success'});
 };
 
-
 module.exports.destroySession = function (req, res){
     req.logout();
     return res.json({data: 'success'});
-}
+};
