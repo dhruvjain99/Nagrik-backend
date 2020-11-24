@@ -12,3 +12,7 @@ module.exports.destroySession = function (req, res){
     req.logout();
     return res.json({data: 'success'});
 };
+module.exports.user_info = function (req, res){
+    console.log(req);
+    return res.json({name: req.user});
+}
