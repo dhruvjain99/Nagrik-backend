@@ -13,3 +13,11 @@ module.exports.destroySession = function (req, res){
     req.logout();
     return res.json({data: 'success'});
 }
+
+module.exports.profile = function (req, res){
+    return res.json({name: req.session.passport.user.name, 
+                    email: req.session.passport.user.email, 
+                    friends: req.session.passport.user.friends,
+                    communities: req.session.passport.user.communities,
+                });
+}
