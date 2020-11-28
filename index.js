@@ -6,9 +6,10 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const port = 3000;
 const passport = require('passport');
+const mongoStore = require('connect-mongo')(session);
 
 app.use(cookieParser());
-app.use(session({secret: "nagrik", resave: false, saveUninitialized: false}));
+app.use(session({secret: "nagrik", resave: false, saveUninitialized: false, store: new mongoStore({mongooseConnection: db})}));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -24,8 +25,9 @@ done(null, user);
 passport.checkAuthentication = function(req, res, done){
     if(req.isAuthenticated()){
         done();
+    } else {
+        res.redirect('/');
     }
-    res.redirect('/');
 };
 
 app.use('/', require('./routes'));

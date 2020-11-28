@@ -4,6 +4,7 @@
   "description": "A social networking application for the local community to support each other in the need of danger and emergency where residents can report and share any mishappening in the nearby area thus, helping and making people aware.",
   "main": "index.js",
   "dependencies": {
+    "connect-mongo": "^3.2.0",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
