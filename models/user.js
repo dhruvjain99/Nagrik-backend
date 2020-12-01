@@ -10,6 +10,16 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    friends: {
+        type: Number,
+        default: 0,
+        required: true
+    },
+    communities: {
+        type: Number,
+        default: 0,
+        required: true
+    },
 }, {
     timestamps: true
 });
