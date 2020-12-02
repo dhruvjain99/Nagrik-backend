@@ -15,6 +15,7 @@ module.exports.destroySession = function (req, res){
 }
 
 module.exports.profile = function (req, res){
+    //console.log(req);
     return res.json({name: req.session.passport.user.name, 
                     email: req.session.passport.user.email, 
                     friends: req.session.passport.user.friends,

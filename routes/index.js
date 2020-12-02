@@ -4,5 +4,8 @@ const passport = require('passport');
 
 router.use('/home', require('./home'));
 router.use('/users', require('./users'));
+router.use('/userFeed', require('./userFeed'));
+router.use('/allEvents',require('./allEvents'));
+router.use('/updateUserLocation', require('./updateUserLocation'));
 
 module.exports = router;
