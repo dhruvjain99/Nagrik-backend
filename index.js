@@ -8,6 +8,7 @@ const port = 3000;
 const passport = require('passport');
 const { urlencoded } = require('express');
 const mongoStore = require('connect-mongo')(session);
+require('dotenv').config()
 
 app.use(urlencoded());
 app.use(cookieParser());

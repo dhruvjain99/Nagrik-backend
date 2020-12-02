@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const mongoDB = 'mongodb://127.0.0.1/nagrik';
+const mongoDB = process.env.MONGODB_URI || 'mongodb://127.0.0.1/nagrik';
 
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 
