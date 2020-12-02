@@ -4,7 +4,7 @@ module.exports.newIncident = async function(req, res){
     try{
         let incident = await Incident.create({
             name: req.body.name,
-            description: req.body.descrption,
+            description: req.body.description,
             latitude: req.body.latitude,
             longitude: req.body.longitude,
             is_commAwareness: req.body.is_commAwareness,
@@ -12,7 +12,7 @@ module.exports.newIncident = async function(req, res){
             is_emergency: req.body.is_emergency,
             is_verified: true,
             user: req.sessions.passport.user._id,
-            video_url: '',
+            video_url: ' ',
         });
         return res.json({data: incident._id});
     } catch(err){
