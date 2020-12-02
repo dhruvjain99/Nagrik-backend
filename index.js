@@ -6,8 +6,10 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const port = 3000;
 const passport = require('passport');
+const { urlencoded } = require('express');
 const mongoStore = require('connect-mongo')(session);
 
+app.use(urlencoded());
 app.use(cookieParser());
 app.use(session({secret: "nagrik", resave: false, saveUninitialized: false, store: new mongoStore({mongooseConnection: db})}));
 
