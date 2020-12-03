@@ -1,4 +1,4 @@
-const events = require('../../models/events');
+const incidents = require('../../models/incident');
 const user = require('../../models/user');
 const fs = require('fs');
 const path = require('path');
@@ -13,10 +13,10 @@ module.exports.findFeed = function(req, res) {
   //  console.log(req.user);
     user.findById(ObjectId(userId))
     .then(doc => {
-        var eventData;
+        var incidentData;
         long = doc.location.coordinates[0];
         latt = doc.location.coordinates[1];
-        events.find({
+        incidents.find({
             location: {
              $near: {
               $maxDistance: maxDist,
@@ -28,8 +28,8 @@ module.exports.findFeed = function(req, res) {
             }
            }).find((error, results) => {
             if (error) console.log(error);
-            eventData = results;
-            return res.send(eventData);
+            incidentData = results;
+            return res.send(incidentData);
            });
       })
       .catch(err => {

@@ -1,4 +1,4 @@
-const events = require('../../models/events');
+const incidents = require('../../models/incident');
 const user = require('../../models/user');
 const fs = require('fs');
 const path = require('path');

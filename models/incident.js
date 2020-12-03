@@ -9,12 +9,10 @@ const incidentSchema = mongoose.Schema({
     video_url:{
         type:String, required: true,
     },
-    latitude: {
-        type: Number, required: true,
-    },
-    longitude: {
-        type: Number, required: true,
-    },
+    location: {
+        type: { type: String },
+        coordinates: []
+       },
     is_commAwareness: {
         type: Boolean, required: true,
     },
@@ -34,5 +32,6 @@ const incidentSchema = mongoose.Schema({
     timestamps: true
 });
 
+incidentSchema.index({ location: "2dsphere" });
 const incident = mongoose.model('Incident', incidentSchema);
 module.exports = incident;
