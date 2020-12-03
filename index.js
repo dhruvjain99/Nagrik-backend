@@ -4,10 +4,12 @@ const google_auth = require('./config/passport-google-oauth')
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const app = express();
-const port = 3000;
 const passport = require('passport');
 const { urlencoded } = require('express');
 const mongoStore = require('connect-mongo')(session);
+require('dotenv').config()
+
+const port = process.env.PORT || 3000;
 
 app.use(urlencoded());
 app.use(cookieParser());
