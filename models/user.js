@@ -20,9 +20,14 @@ const userSchema = mongoose.Schema({
         default: 0,
         required: true
     },
+    location: {
+        type: { type: String },
+        coordinates: []
+       },
 }, {
     timestamps: true
 });
 
+userSchema.index({ location: "2dsphere" });
 const user = mongoose.model('User', userSchema);
 module.exports = user;
