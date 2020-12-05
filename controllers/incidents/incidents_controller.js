@@ -24,10 +24,12 @@ module.exports.newIncident = async function(req, res){
 };
 
 module.exports.findIncidents = function(req, res) {
-    var userId = req.user._id;
-    var allIncidentsData;
     Incident.find({}, function(err, allIncidentsData) {
+        if(err){
+            console.log("Error while finding all incidents", err);
+            return res.status(500).json({message: 'Internal Server Error'});
+        }
         console.log(allIncidentsData);
         res.send(allIncidentsData);  
-      });
-    }
+    });
+};
