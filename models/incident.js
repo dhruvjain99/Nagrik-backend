@@ -10,10 +10,8 @@ const incidentSchema = mongoose.Schema({
         type:String, required: true,
     },
     location: {
-        type: { type: String },
+        type: { type: String, default: 'Point' },
         coordinates: [],
-        default:[0, 0],
-        required: true,
        },
     is_commAwareness: {
         type: Boolean, required: true,
