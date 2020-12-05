@@ -1,13 +1,8 @@
-const incident = require('../../models/incident');
-const user = require('../../models/user');
-const fs = require('fs');
-const path = require('path');
-const crypto = require('crypto');
-var ObjectId = require('mongodb').ObjectID;
+const Incident = require('../../models/incident');
 
 module.exports.newIncident = async function(req, res){
     try{
-        let incident = await incident.create({
+        let incident = await Incident.create({
             name: req.body.name,
             description: req.body.description,
             location: {
@@ -18,20 +13,20 @@ module.exports.newIncident = async function(req, res){
             is_neighUpdate: req.body.is_neighUpdate,
             is_emergency: req.body.is_emergency,
             is_verified: true,
-            user: req.sessions.passport.user._id,
+            user: req.user._id,
             video_url: ' ',
         });
         return res.json({data: incident._id});
     } catch(err){
         console.log(err);
-        return res.json({data: 'failure'});
+        return res.status(500).json({message: 'Internal Server Error'});
     }
 };
 
 module.exports.findIncidents = function(req, res) {
     var userId = req.user._id;
     var allIncidentsData;
-    incident.find({}, function(err, allIncidentsData) {
+    Incident.find({}, function(err, allIncidentsData) {
         console.log(allIncidentsData);
         res.send(allIncidentsData);  
       });
