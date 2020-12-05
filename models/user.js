@@ -22,7 +22,9 @@ const userSchema = mongoose.Schema({
     },
     location: {
         type: { type: String },
-        coordinates: []
+        coordinates: [],
+        default:[0, 0],
+        required: true,
        },
 }, {
     timestamps: true
