@@ -21,10 +21,8 @@ const userSchema = mongoose.Schema({
         required: true
     },
     location: {
-        type: { type: String },
+        type: { type: String, default: 'Point', required: true },
         coordinates: [],
-        default:[0, 0],
-        required: true,
        },
 }, {
     timestamps: true

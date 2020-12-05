@@ -17,6 +17,10 @@ module.exports.createToken = async function(req, res){
             user = await User.create({
                 name: payload.name,
                 email: payload.email,
+                location: {
+                    coordinates: [0, 0],
+                    type: 'Point'
+                }
             });
         }
         return res.json(200, {
