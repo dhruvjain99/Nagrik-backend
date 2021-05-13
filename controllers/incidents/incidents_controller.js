@@ -6,7 +6,7 @@ module.exports.newIncident = async function(req, res){
             name: req.body.name,
             description: req.body.description,
             location: {
-                coordinates: [req.body.longitude, req.body.latitude],
+                coordinates: [Number(req.body.longitude), Number(req.body.latitude)],
                 type: "Point"
             },
             is_commAwareness: req.body.is_commAwareness,
