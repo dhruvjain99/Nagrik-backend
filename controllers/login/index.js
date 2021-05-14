@@ -3,6 +3,7 @@ const {OAuth2Client} = require('google-auth-library');
 const constants = require('../commons/constants.js');
 const client = new OAuth2Client([constants.EXPO_ANDROID_CLIENT_ID, constants.EXPO_IOS_CLIENT_ID]);
 const User = require('./../../models/user');
+const io = require('../../index.js').io;
 
 //Action to create session for API request to return JSON web token
 module.exports.createToken = async function(req, res){
@@ -23,6 +24,9 @@ module.exports.createToken = async function(req, res){
                 }
             });
         }
+        io.on("connection", function(socket) {
+            console.log("Socket connection made");
+        });
         return res.json(200, {
             message: 'Signed In successfully, keep the token safe.',
             data: {
@@ -37,8 +41,10 @@ module.exports.createToken = async function(req, res){
     }
 }
 
-
 module.exports.destroyToken = function (req, res){
     req.logout();
+    // io.on("disconnect", () => {
+    //     console.log("Socket disconnected");
+    // });
     return res.json({data: 'success'});
 }

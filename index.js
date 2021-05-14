@@ -10,6 +10,7 @@ const passport = require('passport');
 const jwtStrategy = require('./config/passport-jwt-strategy');
 
 const port = process.env.PORT || 3000;
+const io_port = 9898;
 
 app.use(bodyParser.json());
 
@@ -24,3 +25,5 @@ app.listen(port, (error) => {
     }
     console.log(`API server running at port ${port}.`);
 });
+
+const io = exports.io = require('socket.io')(io_port);

@@ -2,6 +2,7 @@ const Incident = require('../../models/incident');
 const uploadVideo = require('../../middleware/videoUpload');
 var bodyParser = require('body-parser');
 
+const io = require('../../index.js').io;
 module.exports.newIncident = async function(req, res){
     try{
         let incident = await Incident.create({
@@ -22,7 +23,15 @@ module.exports.newIncident = async function(req, res){
             video_url: ' ',
         });
         console.log("incident sucessfully saved");
-        return res.json({IncidentID: incident._id});
+        try{
+            io.broadcast("new notification", incident);
+            console.log("Notification sent");
+        }
+        catch(err){
+            console.log(err);
+            return res.status(500).json({message: 'Notification error'});
+        }
+        return res.json({data: incident._id});
     } catch(err){
         console.log(err);
         return res.status(500).json({message: 'Internal Server Error'});
