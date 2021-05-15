@@ -25,6 +25,15 @@ const incidentSchema = mongoose.Schema({
     is_verified: {
         type: Boolean, required: true,
     },
+    is_specialCovidPost: {
+        type:Boolean, required: false
+    },
+    userCovidNeed: {
+        type:Array, required: false
+    },
+    userCovidSupply: {
+        type:Array, required: false
+    },
     user: {
         type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true,
     },
