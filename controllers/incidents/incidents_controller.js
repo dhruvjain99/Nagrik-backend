@@ -49,7 +49,6 @@ module.exports.findIncidents = function(req, res) {
             console.log("Error while finding all incidents", err);
             return res.status(500).json({message: 'Internal Server Error'});
         }
-        console.log(allIncidentsData);
-        res.send(allIncidentsData);  
+        return res.json({"incidents": allIncidentsData});    
     });
 };
