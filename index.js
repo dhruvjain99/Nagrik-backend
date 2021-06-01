@@ -27,3 +27,7 @@ app.listen(port, (error) => {
 });
 
 const io = exports.io = require('socket.io')(io_port);
+
+io.on("connection", function(socket) {
+    console.log("Socket connection made");
+});

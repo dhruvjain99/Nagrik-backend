@@ -6,5 +6,6 @@ const passport = require('passport');
 router.post('/newIncident', passport.authenticate('jwt', {session: false}), incidents_controller.newIncident);
 router.post('/newIncidentVideo', incidents_controller.uploadIncidentVideo);
 router.get('/find',  passport.authenticate('jwt', {session: false}), incidents_controller.findIncidents);
+router.post('/:id/vote',  passport.authenticate('jwt', {session: false}), incidents_controller.votes);
 
 module.exports = router;
