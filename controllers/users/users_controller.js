@@ -38,10 +38,10 @@ module.exports.updatePost = async function(req, res) {
   
   }, function(err, result){
     if(err){
-       return res.send(err) 
+      return res.json({"error": err})  
     }
     else {
-        return res.send("Incident updated with id: " + req.body._id);
+        return res.json("Incident updated with id: " + req.body._id);
     }
 })
 }
