@@ -37,8 +37,10 @@ module.exports.createToken = async function(req, res){
     }
 }
 
-
 module.exports.destroyToken = function (req, res){
     req.logout();
+    // io.on("disconnect", () => {
+    //     console.log("Socket disconnected");
+    // });
     return res.json({data: 'success'});
 }

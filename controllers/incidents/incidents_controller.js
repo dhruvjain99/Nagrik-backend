@@ -2,6 +2,7 @@ const Incident = require('../../models/incident');
 const uploadVideo = require('../../middleware/videoUpload');
 var bodyParser = require('body-parser');
 
+const io = require('../../index.js').io;
 module.exports.newIncident = async function(req, res){
     try{
         let incident = await Incident.create({
@@ -11,18 +12,28 @@ module.exports.newIncident = async function(req, res){
                 coordinates: [Number(req.body.longitude), Number(req.body.latitude)],
                 type: "Point"
             },
+            votes: 0,
             is_commAwareness: req.body.is_commAwareness,
             is_neighUpdate: req.body.is_neighUpdate,
             is_emergency: req.body.is_emergency,
-            is_verified: true,
             is_specialCovidPost: req.body.is_specialCovidPost,
             userCovidNeed: req.body.userCovidNeed,
             userCovidSupply: req.body.userCovidSupply,
             user: req.user._id,
             video_url: ' ',
+            is_visible: true,
+            votes:0,
+            //update the threshold_users here too
         });
         console.log("incident sucessfully saved");
-        return res.json({IncidentID: incident._id});
+        try{
+            io.broadcast.emit("new notification", incident);
+            console.log("Notification sent");
+        }
+        catch(err){
+            console.log(err);
+        }
+        return; 
     } catch(err){
         console.log(err);
         return res.status(500).json({message: 'Internal Server Error'});
@@ -51,4 +62,27 @@ module.exports.findIncidents = function(req, res) {
         }
         return res.json({"incidents": allIncidentsData});    
     });
+};
+
+module.exports.votes = function(req, res) {
+    const action = req.body.action;
+    const counter = action === 'Upvote' ? 1 : -1; //changes this
+    Incident.findById(req.params.id, function(err, incident) {
+        if(err){
+            console.log("Couldn't update votes", err);
+        }
+        else {
+            incident.votes += counter; // change this
+            if(incident.votes < 0){ // update condition
+                incident.is_visible = False;
+            }
+            incident.save(function(err) {
+            if (err)
+              console.log('Error in saving incident', err);
+            else
+              console.log('success');
+            });
+        }
+      });
+    
 };

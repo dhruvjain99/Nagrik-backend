@@ -22,7 +22,7 @@ const incidentSchema = mongoose.Schema({
     is_emergency: {
         type: Boolean, required: true,
     },
-    is_verified: {
+    is_visible: {
         type: Boolean, required: true,
     },
     is_specialCovidPost: {
@@ -33,6 +33,9 @@ const incidentSchema = mongoose.Schema({
     },
     userCovidSupply: {
         type:Array, required: false
+    },
+    votes: { //Upvotes and downvotes in place of votes, threshold users to be added as well
+        type: Number, required:true, default:0,
     },
     user: {
         type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true,
