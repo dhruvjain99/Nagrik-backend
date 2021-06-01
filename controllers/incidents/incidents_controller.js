@@ -34,12 +34,12 @@ module.exports.uploadIncidentVideo = async (req, res) => {
       await uploadVideo(req, res);
       console.log(req.file);
       if (req.file == undefined) {
-        return res.send(`You must select a file.`);
+        return res.status(500).json({"error": "You must select a file."});
       }
-      return res.send(`File has been uploaded.`);
+      return res.json({"success": "File has been uploaded successfully"});
     } catch (error) {
       console.log(error);
-      return res.send(`Error when trying upload image: ${error}`);
+      return res.status(500).json({"error": `Error when trying upload image: ${error}`});
     }
   };
 
