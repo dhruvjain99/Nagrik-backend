@@ -1,32 +1,54 @@
 const Incident = require('../../models/incident');
+const User =  require('../../models/user');
 const uploadVideo = require('../../middleware/videoUpload');
 var bodyParser = require('body-parser');
 
 module.exports.newIncident = async function(req, res){
-    try{
-        let incident = await Incident.create({
-            name: req.body.name,
-            description: req.body.description,
-            location: {
-                coordinates: [Number(req.body.longitude), Number(req.body.latitude)],
-                type: "Point"
-            },
-            is_commAwareness: req.body.is_commAwareness,
-            is_neighUpdate: req.body.is_neighUpdate,
-            is_emergency: req.body.is_emergency,
-            is_verified: true,
-            is_specialCovidPost: req.body.is_specialCovidPost,
-            userCovidNeed: req.body.userCovidNeed,
-            userCovidSupply: req.body.userCovidSupply,
-            user: req.user._id,
-            video_url: ' ',
-        });
-        console.log("incident sucessfully saved");
-        return res.json({IncidentID: incident._id});
-    } catch(err){
-        console.log(err);
-        return res.status(500).json({message: 'Internal Server Error'});
-    }
+    User.count( {
+        location: {
+          $near: {
+            $maxDistance: 1000,
+            $geometry: {
+              type: "Point",
+              coordinates: [Number(req.body.longitude), Number(req.body.latitude)]
+            }
+          }
+        }
+      },async function(err, result){
+        if(err){
+            console.log(err); 
+        } else {
+           var thresholdCount = result;
+            try{
+                let incident = await Incident.create({
+                    name: req.body.name,
+                    description: req.body.description,
+                    location: {
+                        coordinates: [Number(req.body.longitude), Number(req.body.latitude)],
+                        type: "Point"
+                    },
+                    is_commAwareness: req.body.is_commAwareness,
+                    is_neighUpdate: req.body.is_neighUpdate,
+                    is_emergency: req.body.is_emergency,
+                    is_verified: true,
+                    is_specialCovidPost: req.body.is_specialCovidPost,
+                    userCovidNeed: req.body.userCovidNeed,
+                    userCovidSupply: req.body.userCovidSupply,
+                    user: req.user._id,
+                    video_url: ' ',
+                    is_visible: true,
+                    upVotes:1,
+                    downVotes:1,
+                    thresholdUsers : thresholdCount
+                });
+                console.log("incident sucessfully saved");
+                return res.json({IncidentID: incident._id});
+            } catch(err){
+                console.log(err);
+                return res.status(500).json({message: 'Internal Server Error'});
+            }
+        }
+    }); 
 };
 
 module.exports.uploadIncidentVideo = async (req, res) => {
@@ -52,3 +74,36 @@ module.exports.findIncidents = function(req, res) {
         return res.json({"incidents": allIncidentsData});    
     });
 };
+
+module.exports.updateVotes = function(req, res) {
+    const action = req.body.action;
+    Incident.findById(req.body.id, function(err, incident) {
+        if(err){
+            console.log("Couldn't update votes", err);
+            return res.json("Couldn't update votes", err);
+        } else if(action === undefined) {
+            return res.json("Undefined action");
+        } else {
+            if(action === 1) {
+                incident.upVotes += 1;
+            } else {
+                incident.downVotes += 1;
+            }
+            if(incident.upVotes + incident.downVotes > 0.4*incident.thresholdUsers 
+                    &&  incident.upVotes/incident.downVotes < 0.6) {
+                incident.is_visible = false;
+            }
+            incident.save(function(err) {
+            if (err) {
+              console.log('Error in saving incident', err);
+              return res.json("Couldn't update votes", err);
+            } else {
+              console.log('success');
+              return res.json("success");
+            }
+        });
+    }
+});    
+}
+
+ 
