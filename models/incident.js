@@ -37,6 +37,18 @@ const incidentSchema = mongoose.Schema({
     user: {
         type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true,
     },
+    is_visible: {
+        type: Boolean, required: true,
+    },
+    upVotes: { 
+        type: Number, required:true, default:1,
+    },
+    downVotes: { 
+        type: Number, required:true, default:1,
+    },
+    thresholdUsers: { 
+        type: Number, required:true, default:0,
+    },
 }, {
     timestamps: true
 });
